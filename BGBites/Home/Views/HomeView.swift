@@ -10,25 +10,25 @@ struct HomeView: View {
         let time: String
         let image: String
     }
-
+    
     private let categories = ["All", "Soups", "Salads", "Main Dishes", "Desserts"]
-
+    
     private let popular = [
         Recipe(name: "Tarator", category: "Soup", time: "15 min", image: "tarator"),
         Recipe(name: "Shopska salad", category: "Salad", time: "10 min", image: "shopska"),
         Recipe(name: "Moussaka", category: "Main dishes", time: "40 min", image: "moussaka")
     ]
-
+    
     @State private var selectedCategory = "All"
     @State private var selectedTab = 0
-
+    
     var body: some View {
         ZStack(alignment: .bottom) {
             Color.bgPink.ignoresSafeArea()
-
+            
             ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading, spacing: 0) {
-
+                    
                     // Header
                     HStack(alignment: .top) {
                         VStack(alignment: .leading, spacing: 2) {
@@ -38,9 +38,9 @@ struct HomeView: View {
                                 .font(.custom("VampiroOne-Regular", size: 34))
                         }
                         .foregroundColor(.bgBrown)
-
+                        
                         Spacer()
-
+                        
                         Image("logo")
                             .resizable()
                             .scaledToFit()
@@ -51,7 +51,7 @@ struct HomeView: View {
                     }
                     .padding(.horizontal, 20)
                     .padding(.top, 20)
-
+                    
                     // Recipe of the day
                     Text("Recipe of the day")
                         .font(.custom("Poppins-Medium", size: 20))
@@ -59,10 +59,10 @@ struct HomeView: View {
                         .padding(.horizontal, 20)
                         .padding(.top, 10)
                         .padding(.bottom, 10)
-
+                    
                     ZStack(alignment: .leading) {
                         RoundedRectangle(cornerRadius: 24).fill(.bgBlush)
-
+                        
                         VStack(alignment: .leading, spacing: 8) {
                             Text("BREAKFAST")
                                 .font(.custom("Poppins-SemiBold", size: 12))
@@ -70,10 +70,10 @@ struct HomeView: View {
                                 .padding(.horizontal, 12)
                                 .padding(.vertical, 5)
                                 .background(Capsule().fill(.bgBrown))
-
+                            
                             Text("Banitsa")
                                 .font(.custom("Poppins-SemiBold", size: 20))
-
+                            
                             HStack(spacing: 6) {
                                 Image(systemName: "clock")
                                 Text("1 h 15 min  ·  Easy")
@@ -83,7 +83,7 @@ struct HomeView: View {
                         .foregroundColor(.bgBrown)
                         .padding(.leading, 20)
                         .padding(.top, 50)
-
+                        
                         HStack {
                             Spacer()
                             Image("banitsa")
@@ -97,7 +97,7 @@ struct HomeView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 24))
                     .shadow(color: .black.opacity(0.2), radius: 8, y: 4)
                     .padding(.horizontal, 20)
-
+                    
                     // Category chips
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 10) {
@@ -119,7 +119,7 @@ struct HomeView: View {
                         .padding(.horizontal, 20)
                     }
                     .padding(.top, 36)
-
+                    
                     // Popular recipes
                     HStack {
                         Text("Popular recipes")
@@ -132,7 +132,7 @@ struct HomeView: View {
                     .padding(.horizontal, 20)
                     .padding(.top, 28)
                     .padding(.bottom, 16)
-
+                    
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 20) {
                             ForEach(popular) { recipe in
@@ -146,7 +146,7 @@ struct HomeView: View {
                                     }
                                     .frame(width: 160, height: 156)
                                     .clipped()
-
+                                    
                                     VStack(alignment: .leading, spacing: 2) {
                                         Text(recipe.name)
                                             .font(.system(size: 16, weight: .medium, design: .rounded))
@@ -169,32 +169,8 @@ struct HomeView: View {
                 }
                 .padding(.bottom, 120)
             }
-
-            // Tab bar - I need to move it into a separate file
-            HStack {
-                ForEach(0..<4, id: \.self) { index in
-                    Button {
-                        selectedTab = index
-                    } label: {
-                        Image(systemName: ["house", "book", "bookmark", "person"][index])
-                            .font(.system(size: 26))
-                            .foregroundColor(.bgBrown)
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 52)
-                            .background(
-                                Capsule().fill(Color.black.opacity(selectedTab == index ? 0.07 : 0))
-                            )
-                    }
-                }
-            }
-            .padding(6)
-            .background(
-                Capsule()
-                    .fill(Color.white)
-                    .shadow(color: .black.opacity(0.2), radius: 8, y: 4)
-            )
-            .padding(.horizontal, 20)
-            .padding(.bottom, 8)
+            
+            TabBar(selectedTab: $selectedTab)
         }
     }
 }
